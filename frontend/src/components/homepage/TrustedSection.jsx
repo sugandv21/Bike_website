@@ -1,4 +1,3 @@
-// src/components/TrustedSection.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -84,3 +83,4 @@ export default function TrustedSection({ apiUrl = "/trusted-section/" }) {
     </section>
   );
 }
+

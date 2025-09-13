@@ -1,4 +1,3 @@
-// src/pages/SellBike.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -322,4 +321,5 @@ export default function SellBike() {
     </div>
   );
 }
+
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function SellBike() {
-  const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").trim();
+  const API_BASE = (import.meta.env.VITE_API_BASE_URL || "https://bike-website-ogb3.onrender.com").trim();
   const ENDPOINT = `${API_BASE.replace(/\/$/, "")}/api/sellbike/`;
 
   const [data, setData] = useState(null);
@@ -322,3 +322,4 @@ export default function SellBike() {
     </div>
   );
 }
+

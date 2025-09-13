@@ -60,6 +60,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "https://driverpbikewebsite.netlify.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:5174",
@@ -170,4 +171,5 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", 587))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True") == "True"
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "suganyasdv16@gmail.com")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")  # !! set this in env, do not commit
+
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", EMAIL_HOST_USER)

@@ -9,7 +9,6 @@ export default function SellBike() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Form state
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [variant, setVariant] = useState("");
@@ -17,7 +16,6 @@ export default function SellBike() {
   const [kms, setKms] = useState("");
   const [owner, setOwner] = useState("");
 
-  // Price modal state
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState(null);
   const [priceResult, setPriceResult] = useState(null);
@@ -147,7 +145,6 @@ export default function SellBike() {
 
   return (
     <div className="w-full">
-      {/* Top Banner */}
       <div className="relative">
         <img
           src={extractUrl(data.top_banner_image)}
@@ -165,7 +162,6 @@ export default function SellBike() {
         </div>
       </div>
 
-      {/* Second Banner */}
       <div className="relative my-6 md:my-8 border-4 md:border-8 border-[#235A72] rounded-xl md:rounded-2xl mx-2 sm:mx-4">
         <img
           src={extractUrl(data.second_banner_image)}
@@ -174,23 +170,7 @@ export default function SellBike() {
           loading="lazy"
         />
 
-        {/* Update badge (top-right) */}
-        <div className="absolute top-3 right-3 z-20">
-          <span
-            title="Update"
-            className="inline-block px-3 py-1 rounded-full text-sm sm:text-base font-semibold"
-            style={{
-              background: "linear-gradient(180deg, #ffffff, #D9D9D9)",
-              color: "#0a0a8b",
-              boxShadow: "0 3px 8px rgba(37,90,114,0.18)",
-              fontFamily: "'Sonsie One', cursive",
-            }}
-          >
-            Update
-          </span>
-        </div>
-
-        <div className="absolute top-3 md:top-6 left-1/2 transform -translate-x-1/2 text-center text-dark w-[90%]">
+       <div className="absolute top-3 md:top-6 left-1/2 transform -translate-x-1/2 text-center text-dark w-[90%]">
           <h2
             className="text-lg sm:text-2xl md:text-3xl font-bold"
             dangerouslySetInnerHTML={{ __html: data.second_banner_top_text || "" }}
@@ -198,9 +178,7 @@ export default function SellBike() {
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center bg-black/10 px-2">
-          {/* Restored compact pill-style form */}
           <div className="bg-white shadow-lg rounded-lg lg:rounded-4xl px-3 sm:px-6 py-2 sm:py-3 flex flex-wrap gap-0 items-center w-full max-w-6xl justify-center overflow-hidden">
-            {/* Each control visually separated by a thin vertical rule; small placeholders inside */}
             <select
               value={brand}
               onChange={(e) => setBrand(e.target.value)}
@@ -268,7 +246,6 @@ export default function SellBike() {
         </div>
       </div>
 
-      {/* How it works */}
       <div className="text-center py-8 sm:py-10">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">{data.third_title}</h2>
 
@@ -291,7 +268,6 @@ export default function SellBike() {
         </div>
       </div>
 
-      {/* Price Modal */}
       {isModalOpen && (
         <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40" onClick={closeModal} />
@@ -321,5 +297,6 @@ export default function SellBike() {
     </div>
   );
 }
+
 
 

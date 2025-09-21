@@ -1,24 +1,15 @@
-import React, { createElement, useEffect, useMemo, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+// src/pages/SellBike.jsx
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo1.png";
-
-
+import api from "../api/apiClient";
 
 export default function SellBike() {
-  const API_BASE = useMemo(() => (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000").trim(), []);
-  const ENDPOINT = useMemo(() => `${API_BASE.replace(/\/$/, "")}/api/sellbike/`, [API_BASE]);
-
-  const api = useMemo(
-    () =>
-      axios.create({
-        baseURL: API_BASE.replace(/\/$/, ""),
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" },
-        timeout: 10000,
-      }),
-    [API_BASE]
+  // API base used only for absolutify/image url construction (not for fetching — apiClient handles fetch base)
+  const API_BASE = useMemo(
+    () => (typeof import.meta !== "undefined" ? (import.meta.env.VITE_API_URL || "http://127.0.0.1:8000") : "http://127.0.0.1:8000").replace(/\/+$/, ""),
+    []
   );
 
   // data / fetch state
@@ -34,7 +25,7 @@ export default function SellBike() {
   const [kms, setKms] = useState("");
   const [owner, setOwner] = useState("");
 
-  const [activeField, setActiveField] = useState(null); 
+  const [activeField, setActiveField] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const debounceTimer = useRef(null);
@@ -94,13 +85,14 @@ export default function SellBike() {
     return Math.round(computed / 100) * 100;
   };
 
-
   useEffect(() => {
     const source = axios.CancelToken.source();
     setLoading(true);
     setFetchError(null);
+
+    // apiClient's baseURL already points to /api — call the sellbike endpoint
     api
-      .get("/api/sellbike/", { cancelToken: source.token })
+      .get("/sellbike/", { cancelToken: source.token })
       .then((res) => {
         setData(res.data);
       })
@@ -114,7 +106,7 @@ export default function SellBike() {
     return () => {
       source.cancel("component unmounted");
     };
-  }, [api]);
+  }, []);
 
   useEffect(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
@@ -161,7 +153,6 @@ export default function SellBike() {
     };
   }, [isPriceModalOpen]);
 
- 
   if (loading) return <p className="text-center mt-10 text-xl">Loading...</p>;
   if (fetchError)
     return (
@@ -185,10 +176,10 @@ export default function SellBike() {
     owner: ownerOptions,
   };
 
-  const filteredOptions = activeField && optionsMap[activeField]
-    ? optionsMap[activeField].filter((opt) => opt.toLowerCase().includes((debouncedSearch || "").toLowerCase()))
-    : [];
-
+  const filteredOptions =
+    activeField && optionsMap[activeField]
+      ? optionsMap[activeField].filter((opt) => opt.toLowerCase().includes((debouncedSearch || "").toLowerCase()))
+      : [];
 
   const openFieldDropdown = (field) => {
     setActiveField((prev) => (prev === field ? null : field));
@@ -241,8 +232,8 @@ export default function SellBike() {
     };
 
     try {
-      // straightforward post - adjust if your backend path differs
-      const res = await api.post("/api/sellbike/price/", payload);
+      // apiClient baseURL points to /api so use endpoint paths without extra /api
+      const res = await api.post("/sellbike/price/", payload);
       if (res && res.data && (typeof res.data.price === "number" || res.data.price)) {
         setPriceResult({ amount: res.data.price, currency: res.data.currency || "INR", meta: res.data });
       } else {
@@ -263,7 +254,6 @@ export default function SellBike() {
     setPriceError(null);
     setPriceResult(null);
   };
-
 
   const renderDropdownFor = (field) => {
     if (activeField !== field) return null;
@@ -289,10 +279,7 @@ export default function SellBike() {
               className="flex-1 p-2 border border-gray-200 rounded"
               aria-label="Enter year"
             />
-            <button
-              onClick={() => handleApplyYearFromDropdown(year)}
-              className="px-3 py-2 rounded bg-[#235A72] text-white font-semibold"
-            >
+            <button onClick={() => handleApplyYearFromDropdown(year)} className="px-3 py-2 rounded bg-[#235A72] text-white font-semibold">
               Apply
             </button>
           </div>
@@ -336,7 +323,6 @@ export default function SellBike() {
     );
   };
 
-
   const howItWorks = Array.isArray(data.how_it_works) ? data.how_it_works : [];
 
   return (
@@ -358,19 +344,9 @@ export default function SellBike() {
         <img src={extractUrl(data.second_banner_image)} alt="Second Banner" className="w-full h-[350px] md:h-[450px] lg:h-[500px] object-cover rounded-xl sm:rounded-2xl" loading="lazy" />
 
         <div className="absolute top-3 md:top-6 left-1/2 transform -translate-x-1/2 text-dark w-[90%] flex items-center justify-center gap-2">
-
-  <h2
-    className="text-lg sm:text-2xl md:text-3xl font-bold text-center"
-    dangerouslySetInnerHTML={{ __html: data.second_banner_top_text || "" }}
-  />
-    <img
-    src={logo}
-    alt="Site logo"
-    className="w-10 h-10 sm:w-12 sm:h-12 md:w-44 md:h-48 object-contain"
-    loading="lazy"
-  />
-</div>
-
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-center" dangerouslySetInnerHTML={{ __html: data.second_banner_top_text || "" }} />
+          <img src={logo} alt="Site logo" className="w-10 h-10 sm:w-12 sm:h-12 md:w-44 md:h-48 object-contain" loading="lazy" />
+        </div>
 
         <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex flex-col items-center justify-center px-2">
           <div className="absolute inset-0 top-0 left-1/2 transform -translate-x-1/2 w-full max-w-7xl h-auto bg-black opacity-50 filter blur-[5px] rounded-[20px]" />
@@ -379,7 +355,6 @@ export default function SellBike() {
             <p className="text-white text-lg sm:text-xl md:text-2xl font-semibold text-center mb-2">Enter Your Details</p>
 
             <div className="bg-white bg-opacity-90 shadow-lg rounded-2xl px-1 sm:px-6 py-3 flex flex-wrap gap-3 items-center justify-center w-full overflow-visible">
-
               {/* Brand */}
               <div className="relative" style={{ minWidth: 140 }}>
                 <button
@@ -475,87 +450,72 @@ export default function SellBike() {
                   {priceLoading ? "Checking..." : "Get Price"}
                 </button>
               </div>
-
             </div>
           </div>
         </div>
 
-<div
-  className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 p-2 text-sm sm:text-base md:text-lg z-0 backdrop-blur-[7.5px] bg-white/80 rounded"
-  style={{ borderRadius: 10 }}
->
-  <p className="text-center text-black font-medium">
-    {data.second_banner_bottom_text}{" "}
-    <Link to="/contact" className="text-[#235A72] font-semibold underline">
-      Click here
-    </Link>
-  </p>
-</div>
-
-
-
-
-
-        
+        <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 p-2 text-sm sm:text-base md:text-lg z-0 backdrop-blur-[7.5px] bg-white/80 rounded" style={{ borderRadius: 10 }}>
+          <p className="text-center text-black font-medium">
+            {data.second_banner_bottom_text}{" "}
+            <Link to="/contact" className="text-[#235A72] font-semibold underline">
+              Click here
+            </Link>
+          </p>
+        </div>
       </div>
 
-      {/* Price Modal rendered via Portal so it escapes stacking contexts */}
-      {isPriceModalOpen &&
-        createPortal(
-          <div role="dialog" aria-modal="true" className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-black/40" onClick={closePriceModal} />
-            <div className="relative bg-white rounded-lg max-w-md w-full p-6 shadow-lg z-[100000] border-8 border-[#235A72]">
-              <button aria-label="Close" onClick={closePriceModal} className="absolute right-3 top-3 rounded px-2 py-1 hover:bg-gray-100">
-                ✕
-              </button>
-              <h3 className="text-lg font-semibold mb-3">Estimated Price</h3>
-              {priceLoading ? (
-                <p>Calculating price…</p>
-              ) : priceError ? (
-                <div className="text-red-600"><p>{priceError}</p></div>
-              ) : priceResult ? (
-                <div className="space-y-2">
-                  <p className="text-3xl font-bold">
-                    {priceResult.currency === "INR" || !priceResult.currency ? "₹" : `${priceResult.currency} `} {Number(priceResult.amount).toLocaleString()}
-                  </p>
-                  {priceResult.meta?.fallback && <p className="text-sm text-gray-600">Estimate Price</p>}
-                  <div className="mt-4 flex gap-2">
-                    <button onClick={closePriceModal} className="px-4 py-2 rounded bg-[#235A72] text-white font-semibold">Close</button>
-                  </div>
-                </div>
-              ) : (
-                <p>No price available.</p>
-              )}
-            </div>
-          </div>,
-          document.body
-        )}
-
-     {/* Section 3 - How It Works */}
-      <div className="text-center py-8 sm:py-10">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-          {data.third_title}
-        </h2>
-        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
-          {data.how_it_works.map((item, index) => (
-            <React.Fragment key={item.id}>
-              <div className="flex flex-col items-center p-2 sm:p-4">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-32 sm:w-48 md:w-56 h-auto object-contain mb-3 sm:mb-4"
-                />
-                <p className="text-lg sm:text-xl md:text-2xl font-medium">
-                  {item.title}
+      {/* Price Modal (rendered inline, fixed overlay) */}
+      {isPriceModalOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
+        >
+          <div className="absolute inset-0 bg-black/40" onClick={closePriceModal} />
+          <div className="relative bg-white rounded-lg max-w-md w-full p-6 shadow-lg z-[100000] border-8 border-[#235A72]">
+            <button aria-label="Close" onClick={closePriceModal} className="absolute right-3 top-3 rounded px-2 py-1 hover:bg-gray-100">
+              ✕
+            </button>
+            <h3 className="text-lg font-semibold mb-3">Estimated Price</h3>
+            {priceLoading ? (
+              <p>Calculating price…</p>
+            ) : priceError ? (
+              <div className="text-red-600">
+                <p>{priceError}</p>
+              </div>
+            ) : priceResult ? (
+              <div className="space-y-2">
+                <p className="text-3xl font-bold">
+                  {priceResult.currency === "INR" || !priceResult.currency ? "₹" : `${priceResult.currency} `}{" "}
+                  {Number(priceResult.amount).toLocaleString()}
                 </p>
+                {priceResult.meta?.fallback && <p className="text-sm text-gray-600">Estimate Price</p>}
+                <div className="mt-4 flex gap-2">
+                  <button onClick={closePriceModal} className="px-4 py-2 rounded bg-[#235A72] text-white font-semibold">
+                    Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p>No price available.</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Section 3 - How It Works */}
+      <div className="text-center py-8 sm:py-10">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">{data.third_title}</h2>
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
+          {howItWorks.map((item, index) => (
+            <React.Fragment key={item.id || index}>
+              <div className="flex flex-col items-center p-2 sm:p-4">
+                <img src={extractUrl(item.image)} alt={item.title} className="w-32 sm:w-48 md:w-56 h-auto object-contain mb-3 sm:mb-4" />
+                <p className="text-lg sm:text-xl md:text-2xl font-medium">{item.title}</p>
               </div>
 
               {/* Show > only if not the last item */}
-              {index < data.how_it_works.length - 1 && (
-                <span className="text-3xl sm:text-4xl lg:text-9xl font-bold text-black mx-2">
-                  &lt;
-                </span>
-              )}
+              {index < howItWorks.length - 1 && <span className="text-3xl sm:text-4xl lg:text-9xl font-bold text-black mx-2">&lt;</span>}
             </React.Fragment>
           ))}
         </div>

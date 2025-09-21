@@ -4,26 +4,19 @@ import { useApi } from "../../context/ApiContext";
 
 export default function HeroSection() {
   const { heroData } = useApi();
-
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const bikeImages = (heroData && heroData.bike_images) || [];
-
   useEffect(() => {
     if (bikeImages.length === 0) {
       setCurrentIndex(0);
       return;
     }
-
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % bikeImages.length);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [bikeImages]);
-
   if (!heroData) return null;
-
   return (
     <section className="flex flex-col md:flex-row items-center justify-between px-2 md:px-20 py-2">
       <div className="md:w-1/2 text-center space-y-6">
@@ -36,8 +29,6 @@ export default function HeroSection() {
         >
           {heroData.description}
         </p>
-
-        {/* Link to buy page */}
         <div className="flex justify-center">
           <Link
             to="/buy"

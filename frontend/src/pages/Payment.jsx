@@ -42,17 +42,15 @@ const PAYMENT_METHODS = [
 ];
 
 export default function Payment() {
-  // route supports either bookingId OR productId depending on how you navigate
   const { bookingId, productId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  // parse query param testdrive (1 => true, else false)
   const params = new URLSearchParams(location.search);
   const testDriveFlag = params.get("testdrive") === "1";
 
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState(null); // "booking" | "product"
+  const [mode, setMode] = useState(null);
   const [booking, setBooking] = useState(null);
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
@@ -60,7 +58,6 @@ export default function Payment() {
   const [processing, setProcessing] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState("paytm");
 
-  // success modal state
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const successTimeoutRef = useRef(null);
 

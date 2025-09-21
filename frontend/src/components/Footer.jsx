@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Footer.css";
 
 import logo from "../assets/images/logo.png";
-import whatsapp from "../assets/images/whatsapp.png";
+import whatsapp from "../assets/images/whatsapp.webp";
 import youtube from "../assets/images/youtube.png";
 import instagram from "../assets/images/instagram.png";
 import facebook from "../assets/images/facebook.png";
@@ -102,7 +102,7 @@ export default function Footer() {
             </div>
           </div>
 
-        </div> {/* /drive-footer-inner */}
+        </div> 
       </div>
     </footer>
   );

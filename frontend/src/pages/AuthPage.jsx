@@ -1,4 +1,3 @@
-// src/pages/AuthPage.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -6,7 +5,7 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 const TEAL = "#0f4b56";
 
 export default function AuthPage() {
-  const [mode, setMode] = useState("login"); // 'login' or 'signup'
+  const [mode, setMode] = useState("login");
   const [imgUrl, setImgUrl] = useState(null);
   const [loadingImg, setLoadingImg] = useState(true);
 
@@ -134,7 +133,6 @@ export default function AuthPage() {
     <>
       <div className="max-w-[1100px] mx-auto p-4 sm:p-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 items-center">
-          {/* LEFT: image */}
           <div className="flex items-center justify-center">
             <div className="rounded-[28px] p-2 sm:p-4 w-[90%] lg:w-full" style={{ backgroundColor: TEAL }}>
               <div className="rounded-[18px] overflow-hidden">
@@ -146,13 +144,10 @@ export default function AuthPage() {
               </div>
             </div>
           </div>
-
-          {/* RIGHT: form */}
           <div className="px-1 sm:px-4">
             <h2 className="text-center text-[22px] font-semibold" style={{ color: TEAL }}>
               {mode === "login" ? "Log in" : "Create Account"}
             </h2>
-
             {mode === "login" ? (
               <form onSubmit={submitLogin} className="mt-4">
                 <div className="mb-3">
@@ -165,7 +160,6 @@ export default function AuthPage() {
                     className="w-full rounded-full px-6 py-3 bg-[#0f4b56] text-white placeholder-white/80 focus:outline-none"
                   />
                 </div>
-
                 <div>
                   <div className="mb-2 text-sm font-semibold" style={{ color: TEAL }}>Password</div>
                   <input

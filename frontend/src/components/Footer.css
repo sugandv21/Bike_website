@@ -1,4 +1,4 @@
-/* Footer.css - exact styling ported from your template, small path-agnostic tweaks */
+
 .drive-footer {
   background: #074350;
   color: #ffffff;
@@ -7,7 +7,6 @@
   box-sizing: border-box;
 }
 
-/* Container width is controlled in component via container-fluid wrapper but also match max width */
 .container-fluid {
   width: 100%;
 }
@@ -17,13 +16,12 @@
   margin: 0 auto;
   display: grid;
   align-items: center;
-  grid-template-columns: 360px 200px 200px 200px 260px;
+  grid-template-columns: 340px 160px 260px 100px 240px;
   gap: 30px;
-  padding: 8px 22px;
+  padding: 8px 10px;
   font-size: 1.2em;
 }
 
-/* Logo + left column */
 .footer-logo {
   width: 260px;
   height: auto;
@@ -32,7 +30,7 @@
   filter: drop-shadow(0 6px 8px rgba(0,0,0,0.45));
 }
 
-/* get-in-touch + social icons in one row */
+/* get-in-touch + social icons */
 .get-in-touch-row {
   display: flex;
   align-items: center;
@@ -84,7 +82,7 @@
   display: block;
   filter: drop-shadow(0 18px 20px rgba(0,0,0,0.5));
   transform: translateY(-6px);
-  margin-right: 50px;
+  margin-right: 150px;
 }
 
 /* Address */

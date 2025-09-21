@@ -271,13 +271,9 @@ export default function BuyDetail() {
   return (
     <div className="max-w-8xl mx-auto px-6 md:px-8 py-8">
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-  {/* Main media (takes 2 cols on lg) */}
   <div className="lg:col-span-2">
     <div className="bg-white rounded-lg p-4 shadow">
       <div className="rounded-lg overflow-hidden bg-gray-50">
-        {/* Responsive image container:
-            - mobile: h-64, sm: h-80, md: h-[380px], lg: h-[450px]
-            - center & contain image, with optional dark overlay when bg image present */}
         <div
           className="relative w-full h-64 sm:h-80 md:h-[380px] lg:h-[450px] flex items-center justify-center bg-gray-100"
           style={{
@@ -289,7 +285,6 @@ export default function BuyDetail() {
           {bike.card_bg_image_url && (
             <div className="absolute inset-0 bg-black/30 pointer-events-none" />
           )}
-
           {activeImg ? (
             <img
               src={activeImg}
@@ -300,7 +295,6 @@ export default function BuyDetail() {
             <div className="relative z-10 text-gray-500">No image</div>
           )}
         </div>
-
         <div className="flex items-center gap-3 mt-4 overflow-x-auto px-2 py-2 bg-[#e1f0fb]">
           {thumbnails.map((t, idx) => (
             <button

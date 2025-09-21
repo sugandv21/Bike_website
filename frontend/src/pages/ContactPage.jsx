@@ -1,8 +1,7 @@
-// src/pages/ContactPage.jsx
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// Import icons
 import locationIcon from "../assets/images/location.png";
 import phoneIcon from "../assets/images/call.png";
 import webIcon from "../assets/images/web.png";
@@ -30,26 +29,29 @@ export default function ContactPage() {
   useEffect(() => {
     let mounted = true;
     setLoadingConfig(true);
-    axios.get(`${API_BASE}/contact-config/`)
-      .then(res => {
+    axios
+      .get(`${API_BASE}/contact-config/`)
+      .then((res) => {
         if (!mounted) return;
         setConfig(res.data);
-        setForm(prev => ({
+        setForm((prev) => ({
           ...prev,
           reason: (res.data.reason_choices && res.data.reason_choices[0]) || "",
-          found_us: (res.data.found_us_choices && res.data.found_us_choices[0]) || ""
+          found_us: (res.data.found_us_choices && res.data.found_us_choices[0]) || "",
         }));
       })
-      .catch(err => {
+      .catch((err) => {
         console.warn("Failed to load contact config:", err?.response?.data || err.message);
       })
       .finally(() => mounted && setLoadingConfig(false));
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   function onChange(e) {
     const { name, value } = e.target;
-    setForm(f => ({ ...f, [name]: value }));
+    setForm((f) => ({ ...f, [name]: value }));
   }
 
   function validate() {
@@ -67,8 +69,9 @@ export default function ContactPage() {
       return;
     }
     setSubmitting(true);
-    axios.post(`${API_BASE}/contact-submit/`, form)
-      .then(res => {
+    axios
+      .post(`${API_BASE}/contact-submit/`, form)
+      .then((res) => {
         setModal({ open: true, title: "Sent", message: "Thank you — your message has been sent and saved.", okOnly: true });
         setForm({
           name: "",
@@ -76,10 +79,10 @@ export default function ContactPage() {
           phone: "",
           reason: (config && config.reason_choices && config.reason_choices[0]) || "",
           found_us: (config && config.found_us_choices && config.found_us_choices[0]) || "",
-          message: ""
+          message: "",
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("submit error", error?.response?.data || error.message);
         setModal({ open: true, title: "Error", message: "Failed to submit — please try again later.", okOnly: true });
       })
@@ -103,9 +106,25 @@ export default function ContactPage() {
     border: "1px solid #1f2937",
     outline: "none",
     fontSize: 16,
+    background: "#fff",
   };
 
-  const selectStyle = { ...inputStyle, appearance: "none", WebkitAppearance: "none" };
+  const caretSvg = encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23343a40" d="M5.25 7.5L10 12l4.75-4.5"/></svg>'
+  );
+
+  const selectStyle = {
+    ...inputStyle,
+    paddingRight: 44,
+    appearance: "none",
+    WebkitAppearance: "none",
+    MozAppearance: "none",
+    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,${caretSvg}")`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 12px center",
+    backgroundSize: "16px 16px",
+  };
+
   const textareaStyle = { ...inputStyle, minHeight: 140, resize: "vertical" };
 
   const buttonStyle = {
@@ -120,45 +139,50 @@ export default function ContactPage() {
   return (
     <div style={{ padding: "18px 12px" }}>
       <div style={{ textAlign: "center", marginBottom: 8 }}>
-        <h2 className="text-3xl font-bold py-4" style={{ color: "#0f4b56", margin: 0 }}>{config?.heading || "Contact Us"}</h2>
+        <h2 className="text-3xl font-bold py-4" style={{ color: "#0f4b56", margin: 0 }}>
+          {config?.heading || "Contact Us"}
+        </h2>
       </div>
 
       <div style={containerStyle}>
-        {/* LEFT: form */}
         <div>
           <form onSubmit={handleSubmit}>
             <Field>
-              <input name="name" value={form.name} onChange={onChange} style={inputStyle} placeholder="Name" />
+              <input name="name" value={form.name} onChange={onChange} style={inputStyle} placeholder="Name" className="placeholder-black"/>
             </Field>
 
             <Field>
-              <input name="email" value={form.email} onChange={onChange} style={inputStyle} placeholder="E-mail Address" />
+              <input name="email" value={form.email} onChange={onChange} style={inputStyle} placeholder="E-mail Address" className="placeholder-black"/>
             </Field>
 
             <Field>
-              <input name="phone" value={form.phone} onChange={onChange} style={inputStyle} placeholder="Phone Number" />
+              <input name="phone" value={form.phone} onChange={onChange} style={inputStyle} placeholder="Phone Number" className="placeholder-black"/>
             </Field>
 
             <Field>
-              <select name="reason" value={form.reason} onChange={onChange} style={selectStyle}>
-                <option value="">Reason to Contact</option>
+              <select name="reason" value={form.reason} onChange={onChange} style={selectStyle} aria-label="Reason to contact">
+                <option value=""></option>
                 {config?.reason_choices?.map((r, idx) => (
-                  <option key={idx} value={r}>{r}</option>
+                  <option key={idx} value={r}>
+                    {r}
+                  </option>
                 ))}
               </select>
             </Field>
 
             <Field>
-              <select name="found_us" value={form.found_us} onChange={onChange} style={selectStyle}>
-                <option value="">How did you find us?</option>
+              <select name="found_us" value={form.found_us} onChange={onChange} style={selectStyle} aria-label="How did you find us">
+                <option value=""></option>
                 {config?.found_us_choices?.map((r, idx) => (
-                  <option key={idx} value={r}>{r}</option>
+                  <option key={idx} value={r}>
+                    {r}
+                  </option>
                 ))}
               </select>
             </Field>
 
             <Field>
-              <textarea name="message" value={form.message} onChange={onChange} style={textareaStyle} placeholder="Message" />
+              <textarea name="message" value={form.message} onChange={onChange} style={textareaStyle} placeholder="Message" className="placeholder-black"/>
             </Field>
 
             <div style={{ marginTop: 6 }}>
@@ -169,7 +193,6 @@ export default function ContactPage() {
           </form>
         </div>
 
-        {/* RIGHT: map + address */}
         <div>
           <div style={{ width: "100%", height: 360, position: "relative", marginBottom: 18 }}>
             {config?.map_embed_url ? (
@@ -199,18 +222,28 @@ export default function ContactPage() {
         </div>
       </div>
 
-      {/* Modal */}
       {modal.open && (
-        <div style={{
-          position: "fixed", left: 0, top: 0, right: 0, bottom: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "rgba(0,0,0,0.5)", zIndex: 60
-        }}>
+        <div
+          style={{
+            position: "fixed",
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 60,
+          }}
+        >
           <div style={{ background: "#fff", borderRadius: 12, padding: 20, width: 420, maxWidth: "90%" }}>
             <h3 style={{ marginTop: 0 }}>{modal.title}</h3>
             <p style={{ color: "#374151" }}>{modal.message}</p>
             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 12 }}>
-              <button onClick={() => setModal({ open: false })} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer" }}>OK</button>
+              <button onClick={() => setModal({ open: false })} style={{ padding: "8px 14px", borderRadius: 8, cursor: "pointer" }}>
+                OK
+              </button>
             </div>
           </div>
         </div>

@@ -19,7 +19,6 @@ export default function App() {
     <ApiProvider>
       <BrowserRouter>
         <Navbar />
-
         <main className="min-h-screen">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -33,7 +32,6 @@ export default function App() {
             <Route path="/login" element={<AuthPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/sell" element={<SellBike />} />
-
             <Route
               path="*"
               element={
@@ -47,7 +45,6 @@ export default function App() {
             />
           </Routes>
         </main>
-
         <Footer />
       </BrowserRouter>
     </ApiProvider>

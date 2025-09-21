@@ -135,7 +135,8 @@ export default function BuyPage() {
     <div className="flex gap-6 px-6 md:px-10 py-8">
       <aside className="w-72 self-start bg-[#e1f0fb] p-4 rounded-md border-4 filter-aside">
 
-        <h3 className="font-bold text-xl mb-3">Filter</h3>
+        <h3 className="font-bold text-2xl mb-3 ps-3 text-[#07435c]">Filter</h3>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Budget" open={openBudget} onToggle={() => setOpenBudget(!openBudget)}>
           <div>
@@ -165,19 +166,21 @@ export default function BuyPage() {
               step="1000"
               value={priceRange[1]}
               onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-              className="w-full"
+              className="w-full accent-[#074356]"
             />
           </div>
         </AccordionBlock>
 
+    <div className="border-b-2 border-black"></div>
+
         <AccordionBlock title="Categories" open={openCategories} onToggle={() => setOpenCategories(!openCategories)}>
-          <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2 place-items-center">
             <button
               onClick={() => handleCategorySelect("Scooty")}
               className={`flex flex-col items-center p-2 rounded-md border ${category === "Scooty" ? "bg-white shadow" : "bg-transparent"}`}
               title="Scooty"
             >
-              <img src={ScootyImg} alt="Scooty" className="w-12 h-12 object-contain mb-1" />
+              <img src={ScootyImg} alt="Scooty" className="w-14 h-14 object-contain mb-1" />
               <div className="text-xs">Scooty</div>
             </button>
 
@@ -186,20 +189,21 @@ export default function BuyPage() {
               className={`flex flex-col items-center p-2 rounded-md border ${category === "Motor bike" ? "bg-white shadow" : "bg-transparent"}`}
               title="Motor bike"
             >
-              <img src={MotorImg} alt="Motor bike" className="w-12 h-12 object-contain mb-1" />
+              <img src={MotorImg} alt="Motor bike" className="w-14 h-14 object-contain mb-1" />
               <div className="text-xs">Motor bike</div>
             </button>
 
             <button
               onClick={() => handleCategorySelect("EV")}
-              className={`flex flex-col items-center p-2 rounded-md border ${category === "EV" ? "bg-white shadow" : "bg-transparent"}`}
+              className={`flex flex-col ms-10 items-center p-2 rounded-md border ${category === "EV" ? "bg-white shadow" : "bg-transparent"}`}
               title="EV"
             >
-              <img src={EvImg} alt="EV" className="w-12 h-12 object-contain mb-1" />
-              <div className="text-xs">EVs</div>
+              <img src={EvImg} alt="EV" className="w-14 h-14 object-contain mb-1" />
+              <div className="text-xs ">EVs</div>
             </button>
           </div>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Brand" open={openBrand} onToggle={() => setOpenBrand(!openBrand)}>
           <div className="flex flex-col gap-2">
@@ -220,6 +224,7 @@ export default function BuyPage() {
             />
           </div>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Year" open={openYear} onToggle={() => setOpenYear(!openYear)}>
           <div>
@@ -253,6 +258,7 @@ export default function BuyPage() {
             />
           </div>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Kilometers" open={openKm} onToggle={() => setOpenKm(!openKm)}>
           <div>
@@ -276,6 +282,7 @@ export default function BuyPage() {
             <div className="text-xs text-gray-500 mt-1">0 — 200000 Km</div>
           </div>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="EngineTrim CC" open={openEngine} onToggle={() => setOpenEngine(!openEngine)}>
           <div className="flex flex-col gap-2">
@@ -299,6 +306,7 @@ export default function BuyPage() {
             />
           </div>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Fuel Type" open={openFuel} onToggle={() => setOpenFuel(!openFuel)}>
           <select className="w-full p-2 border rounded" value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
@@ -308,10 +316,12 @@ export default function BuyPage() {
             <option value="Diesel">Diesel</option>
           </select>
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         <AccordionBlock title="Color" open={openColor} onToggle={() => setOpenColor(!openColor)}>
           <input className="w-full p-2 border rounded" value={color} onChange={(e) => setColor(e.target.value)} placeholder="Blue, Red ..." />
         </AccordionBlock>
+         <div className="border-b-2 border-black"></div>
 
         {/* <div className="flex gap-2 mt-2">
           <button

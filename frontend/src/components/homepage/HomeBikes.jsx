@@ -107,7 +107,7 @@ export default function HomeBikes({ ids = [1, 2, 3], highlightFirst = true }) {
                 <div
                   className={`p-4 flex-1 flex flex-col justify-between bg-[#e6fffe] ${
                     highlightFirst && i === 0
-                      ? "border-2"
+                      ? "border-2 border-violet-500"
                       : ""
                   }`}
                   style={{ borderRadius: 6 }}
@@ -159,4 +159,3 @@ export default function HomeBikes({ ids = [1, 2, 3], highlightFirst = true }) {
     </section>
   );
 }
-

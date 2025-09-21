@@ -37,7 +37,6 @@ export default function Navbar() {
   return (
     <nav className="bg-white relative z-50" role="navigation" aria-label="main-navigation">
       <div className="max-w-8xl mx-auto px-4 md:px-2">
-        {/* Desktop Navbar */}
         <div className="hidden lg:grid grid-cols-8 items-center h-20 lg:ps-10">
           <div className="flex justify-center">
             <NavLink to="/" onClick={handleLinkClick}>

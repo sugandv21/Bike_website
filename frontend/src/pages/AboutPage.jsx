@@ -76,7 +76,7 @@ export default function AboutPage() {
         </div>
 
         <div className="w-full md:w-1/2 text-center ">
-          <h2 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-[#235A72] mb-4">
             {s1.title}
           </h2>
           <p
@@ -97,69 +97,63 @@ export default function AboutPage() {
             loading="lazy"
           />
 
-          <div className="absolute right-6 bottom-6 text-center max-w-md bg-white/50 backdrop-blur-md p-4 rounded-xl">
-            <h3 className="font-semibold text-slate-900 text-lg">
+          <div className="absolute right-6 bottom-6 text-center max-w-md bg-white/80 backdrop-blur-sm p-4 rounded-xl">
+            <h3 className="font-bold text-[#235A72]  text-lg">
               {s2.overlay_title}
             </h3>
-            <p className="text-slate-700 text-sm mt-2">{s2.overlay_text}</p>
+            <p className="text-md font-semibold mt-2">{s2.overlay_text}</p>
           </div>
         </div>
       </section>
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-20 text-center">
-        <div className="lg:col-span-1">
-          <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-3">
-            {s3.title}
-          </h3>
-          <p className="text-slate-600 leading-relaxed whitespace-pre-line text-md md:text-lg">
-            {s3.content}
-          </p>
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-center">
+  {/* Left side (title + content) */}
+  <div className="flex flex-col justify-center px-4">
+    <h3 className="text-xl md:text-3xl font-semibold text-[#235A72]  mb-3">
+      {s3.title}
+    </h3>
+    <p className="leading-relaxed whitespace-pre-line text-md md:text-xl px-2"  style={{ lineHeight: "2" }}>
+      {s3.content}
+    </p>
+  </div>
+
+  {/* Right side (images) */}
+  <div className="grid grid-cols-2 gap-4">
+    <div className="flex flex-col gap-4">
+      {s3.images[0] && (
+        <div className="rounded-xl overflow-hidden shadow">
+          <img
+            src={s3.images[0].image || s3.images[0].url || s3.images[0].file || s3.images[0]}
+            alt="gallery-0"
+            className="w-full h-48 md:h-60 object-cover"
+          />
         </div>
+      )}
 
-        <div className="lg:col-span-2 grid grid-cols-2 gap-6">
-          <div className="flex flex-col gap-6">
-            {s3.images[0] && (
-              <div className="rounded-xl overflow-hidden shadow">
-                <img
-                  src={
-                    s3.images[0].image ||
-                    s3.images[0].url ||
-                    s3.images[0].file ||
-                    s3.images[0]
-                  }
-                  alt="gallery-0"
-                  className="w-full h-48 md:h-56 object-cover"
-                />
-              </div>
-            )}
-
-            <div className="grid grid-cols-2 gap-6">
-              {s3.images.slice(1, 3).map((item, idx) => (
-                <div key={idx} className="rounded-xl overflow-hidden shadow">
-                  <img
-                    src={item.image || item.url || item.file || item}
-                    alt={`gallery-${idx + 1}`}
-                    className="w-full h-32 md:h-40 object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+      <div className="grid grid-cols-2 gap-4">
+        {s3.images.slice(1, 3).map((item, idx) => (
+          <div key={idx} className="rounded-xl overflow-hidden shadow">
+            <img
+              src={item.image || item.url || item.file || item}
+              alt={`gallery-${idx + 1}`}
+              className="w-full h-32 md:h-32 object-cover"
+            />
           </div>
-          {s3.images[3] && (
-            <div className="rounded-xl overflow-hidden shadow flex">
-              <img
-                src={
-                  s3.images[3].image ||
-                  s3.images[3].url ||
-                  s3.images[3].file ||
-                  s3.images[3]
-                }
-                alt="gallery-3"
-                className="w-80 object-cover h-[calc(14rem+10rem+1rem)] md:h-[calc(14rem+10rem+1rem)]"
-              />
-            </div>
-          )}
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+
+    {s3.images[3] && (
+      <div className="overflow-hidden">
+        <img
+          src={s3.images[3].image || s3.images[3].url || s3.images[3].file || s3.images[3]}
+          alt="gallery-3"
+          className="w-full h-[380px] rounded-2xl "
+        />
+      </div>
+    )}
+  </div>
+</section>
+
 
       <div className="h-12" />
     </main>

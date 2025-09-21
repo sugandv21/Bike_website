@@ -1,6 +1,21 @@
+// src/components/HomeBanner.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+/**
+ * HomeBanner
+ * - Fetches banner data from /homepage-banner/
+ * - Row 1: title (left) and logo (right)
+ * - Row 2: centered 3 columns: [icon] [value (big, stacked above caption)]
+ *
+ * Expects banner to include:
+ *  - title
+ *  - logo_url
+ *  - background_image_url (optional)
+ *  - stats: [{ id, icon_url, value, caption, is_visible }]
+ *
+ * The pickIconForStat helper keeps earlier selection logic if you used banner.* special images.
+ */
 export default function HomeBanner() {
   const [banner, setBanner] = useState(null);
 
@@ -96,4 +111,3 @@ export default function HomeBanner() {
     </div>
   );
 }
-
